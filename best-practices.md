@@ -156,11 +156,92 @@ export const UnnecessaryAnonymousFunctionComponentsGood = () => (
 ```JS
 code here
 ```
-
+7. Undefined Props
+Undefined props are excluded, so don’t worry about providing an undefined fallback if it's OK for the prop to be undefined.
 ```JS
-code here
+//bad ex.
+import React from 'react'
+
+const ButtonOne = ({ handleClick }) => (
+  <button onClick={handleClick || undefined}>Click me</button>
+)
+
+const ButtonTwo = ({ handleClick }) => {
+  const noop = () => {}
+
+  return <button onClick={handleClick || noop}>Click me</button>
+}
+
+export const UndefinedPropsBad = () => (
+  <div>
+    <ButtonOne />
+    <ButtonOne handleClick={() => alert('Clicked!')} />
+    <ButtonTwo />
+    <ButtonTwo handleClick={() => alert('Clicked!')} />
+  </div>
+)
+
+//good ex.
+const ButtonOne = ({ handleClick }) => (
+  <button onClick={handleClick}>Click me</button>
+)
+
+export const UndefinedPropsGood = () => (
+  <div>
+    <ButtonOne />
+    <ButtonOne handleClick={() => alert('Clicked!')} />
+  </div>
+)
+
 ```
-
+8. Setting State That Relies on the Previous State
+Always set state as a function of the previous state if the new state relies on the previous state. React state updates can be batched, and not writing your updates this way can lead to unexpected results.
 ```JS
-code here
+//bad ex.
+import React, { useState } from 'react'
+
+export const PreviousStateBad = () => {
+  const [isDisabled, setIsDisabled] = useState(false)
+
+  const toggleButton = () => setIsDisabled(!isDisabled)
+
+  const toggleButton2Times = () => {
+    for (let i = 0; i < 2; i++) {
+      toggleButton()
+    }
+  }
+
+  return (
+    <div>
+      <button disabled={isDisabled}>
+        I'm {isDisabled ? 'disabled' : 'enabled'}
+      </button>
+      <button onClick={toggleButton}>Toggle button state</button>
+      <button onClick={toggleButton2Times}>Toggle button state 2 times</button>
+    </div>
+  )
+}
+
+//good ex.
+export const PreviousStateGood = () => {
+  const [isDisabled, setIsDisabled] = useState(false)
+
+  const toggleButton = () => setIsDisabled(isDisabled => !isDisabled)
+
+  const toggleButton2Times = () => {
+    for (let i = 0; i < 2; i++) {
+      toggleButton()
+    }
+  }
+
+  return (
+    <div>
+      <button disabled={isDisabled}>
+        I'm {isDisabled ? 'disabled' : 'enabled'}
+      </button>
+      <button onClick={toggleButton}>Toggle button state</button>
+      <button onClick={toggleButton2Times}>Toggle button state 2 times</button>
+    </div>
+  )
+}
 ```
