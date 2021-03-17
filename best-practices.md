@@ -92,9 +92,25 @@ export const StringPropValuesGood = () => (
   </div>
 )
 ```
-
+5. Event Handler Functions
+If an event handler only takes a single argument for the Event object, you can just provide the function as the event handler like this: onChange={handleChange}. You don't need to wrap the function in an anonymous function like this: onChange={e => handleChange(e)}.
 ```JS
-code here
+import React, { useState } from 'react'
+
+export const UnnecessaryAnonymousFunctionsGood = () => {
+  const [inputValue, setInputValue] = useState('')
+
+  const handleChange = e => {
+    setInputValue(e.target.value)
+  }
+
+  return (
+    <>
+      <label htmlFor="name">Name: </label>
+      <input id="name" value={inputValue} onChange={handleChange} />
+    </>
+  )
+}
 ```
 
 ```JS
