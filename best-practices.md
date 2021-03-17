@@ -65,6 +65,37 @@ export const BooleanPropGood = () => (
   </div>
 )
 ```
+4. String Props
+A string prop value can be provided in double-quotes without the use of curly braces or backticks.
+
+```JS
+//bad ex.
+import React from 'react'
+
+const Greeting = ({ personName }) => <p>Hi, {personName}!</p>
+
+export const StringPropValuesBad = () => (
+  <div>
+    <Greeting personName={"John"} />
+    <Greeting personName={'Matt'} />
+    <Greeting personName={`Paul`} />
+  </div>
+)
+
+//good ex.
+
+export const StringPropValuesGood = () => (
+  <div>
+    <Greeting personName="John" />
+    <Greeting personName="Matt" />
+    <Greeting personName="Paul" />
+  </div>
+)
+```
+
+```JS
+code here
+```
 
 ```JS
 code here
