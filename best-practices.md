@@ -1,3 +1,5 @@
+## React - hooks
+
 1. Conditional Rendering Only for One Condition
 If you need to conditionally render something when a condition is true and not render anything when a condition is false, don’t use a ternary operator. Use the && operator instead.
 
@@ -18,13 +20,50 @@ export const ConditionalRenderingWhenTrueGood = () => {
   )
 }
 ```
+2. Conditional Rendering on Either Condition
+If you need to conditionally render one thing when a condition is true and render a different thing when the condition is false, use a ternary operator.
 
 ```JS
-code here
+export const ConditionalRenderingGood = () => {
+  const [showConditionOneText, setShowConditionOneText] = useState(false)
+
+  const handleClick = () =>
+    setShowConditionOneText(showConditionOneText => !showConditionOneText)
+
+  return (
+    <div>
+      <button onClick={handleClick}>Toggle the text</button>
+      {showConditionOneText ? (
+        <p>The condition must be true!</p>
+      ) : (
+        <p>The condition must be false!</p>
+      )}
+    </div>
+  )
+}
 ```
-
+3. Boolean Props
+A truthy prop can be provided to a component with just the prop name without a value like this: myTruthyProp. Writing it like myTruthyProp={true} is unnecessary.
 ```JS
-code here
+import React from 'react'
+
+const HungryMessage = ({ isHungry }) => (
+  <span>{isHungry ? 'I am hungry' : 'I am full'}</span>
+)
+
+export const BooleanPropGood = () => (
+  <div>
+    <span>
+      <b>This person is hungry: </b>
+    </span>
+    <HungryMessage isHungry />
+    <br />
+    <span>
+      <b>This person is full: </b>
+    </span>
+    <HungryMessage isHungry={false} />
+  </div>
+)
 ```
 
 ```JS
